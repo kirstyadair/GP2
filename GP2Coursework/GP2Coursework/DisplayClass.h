@@ -26,7 +26,7 @@ public:
 
 private:
 
-	void error(std::string errorString);
+	void showError(std::string errorString);
 
 	SDL_GLContext glContext; //global variable to hold the context
 	SDL_Window* sdlWindow; //holds pointer to out window
