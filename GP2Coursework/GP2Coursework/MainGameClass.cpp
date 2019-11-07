@@ -70,9 +70,9 @@ void MainGameClass::drawGame()
 	transform.SetRot(glm::vec3(0.0, 0.0, counter * 5));
 	transform.SetScale(glm::vec3(sinf(counter), sinf(counter), sinf(counter)));
 	
-	shader.bind();
-	shader.update(transform, camera1);
-	texture.bind(0);
+	shader.Bind();
+	shader.Update(transform, camera1);
+	texture.Bind(0);
 	mesh1.draw();
 	counter = counter + 0.01f;
 

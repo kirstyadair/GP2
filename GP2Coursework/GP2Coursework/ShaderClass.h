@@ -9,12 +9,12 @@ class ShaderClass
 public:
 	ShaderClass(const std::string& filename);
 
-	void bind(); //Set gpu to use our shaders
-	void update(const Transform& transform, const CameraClass& camera);
+	void Bind(); //Set gpu to use our shaders
+	void Update(const Transform& transform, const CameraClass& camera);
 
-	std::string loadShader(const std::string& fileName);
-	void checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage);
-	GLuint createShader(const std::string& text, unsigned int type);
+	std::string LoadShader(const std::string& fileName);
+	void CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage);
+	GLuint CreateShader(const std::string& text, unsigned int type);
 
 	~ShaderClass();
 

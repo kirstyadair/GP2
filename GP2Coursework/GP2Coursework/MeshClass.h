@@ -33,7 +33,7 @@ public:
 	void draw();
 	void initialise(Vertex* vertices, unsigned int numberOfVertices, unsigned int* indices, unsigned int numberOfIndices);
 	void loadModel(const std::string& modelFilename);
-	void initialiseModel(const IndexedModel& theModel);
+	void initialiseModel(const IndexedModelClass& theModel);
 
 private:
 

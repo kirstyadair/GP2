@@ -8,7 +8,7 @@ public:
 	TextureClass(const std::string& filename);
 	~TextureClass();
 
-	void bind(unsigned int unit);
+	void Bind(unsigned int unit);
 
 private:
 	GLuint theTextureHandler;
