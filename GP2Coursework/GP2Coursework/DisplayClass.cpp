@@ -35,7 +35,7 @@ void DisplayClass::clearDisplay(float red, float green, float blue, float alpha)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear colour and depth buffer - set colour to colour defined in glClearColor
 }
 
-void DisplayClass::initialiseDisplay()
+void DisplayClass::Init()
 {
 	SDL_Init(SDL_INIT_EVERYTHING); //initalise everything
 
@@ -68,5 +68,7 @@ void DisplayClass::initialiseDisplay()
 	}
 
 	glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
+
+	
 }
 

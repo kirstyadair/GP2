@@ -11,7 +11,8 @@ class DisplayClass
 public:
 	DisplayClass();
 	~DisplayClass();
-	void initialiseDisplay();
+	
+	void Init();
 	void bufferSwap();
 	void clearDisplay(float red, float green, float blue, float alpha);
 
@@ -27,7 +28,6 @@ public:
 private:
 
 	void showError(std::string errorString);
-
 	SDL_GLContext glContext; //global variable to hold the context
 	SDL_Window* sdlWindow; //holds pointer to out window
 	float widthOfScreen;

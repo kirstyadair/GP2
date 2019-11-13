@@ -8,28 +8,26 @@
 #include "Transform.h"
 #include "CameraClass.h"
 
-enum class GameState { PLAY, EXIT };
-
 class MainGameClass
 {
 public:
 	MainGameClass();
 	~MainGameClass();
-
+	void loadModelsFromFile();
+	bool gamePlaying = true;
 	void run();
 
 private:
 
-	void initialiseSystems();
-	void processInput();
+	void checkGameStatus();
 	void gameLoop();
 	void drawGame();
 
 	DisplayClass gameDisplay;
-	GameState gameState;
 	MeshClass mesh1;
 	MeshClass mesh2;
 	CameraClass camera1;
+	Transform transform;
 
 	float counter;
 

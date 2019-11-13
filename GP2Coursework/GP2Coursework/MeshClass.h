@@ -18,6 +18,7 @@ public:
 	glm::vec2* GetTextureCoordinates() { return &textureCoordinates; }
 	glm::vec3* GetNormal() { return &normal; }
 
+
 private:
 	glm::vec3 position;
 	glm::vec2 textureCoordinates;
@@ -31,7 +32,8 @@ public:
 	~MeshClass();
 
 	void draw();
-	void initialise(Vertex* vertices, unsigned int numberOfVertices, unsigned int* indices, unsigned int numberOfIndices);
+	
+	//void initialise(Vertex* vertices, unsigned int numberOfVertices, unsigned int* indices, unsigned int numberOfIndices);
 	void loadModel(const std::string& modelFilename);
 	void initialiseModel(const IndexedModelClass& theModel);
 

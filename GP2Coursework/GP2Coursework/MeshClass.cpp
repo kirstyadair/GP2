@@ -3,7 +3,7 @@
 
 MeshClass::MeshClass()
 {
-
+	
 }
 
 
@@ -21,11 +21,13 @@ void MeshClass::draw()
 
 void MeshClass::loadModel(const std::string& filename)
 {
+
 	IndexedModelClass model = ObjectModel(filename).ToIndexedModel();
 	initialiseModel(model);
 }
 
-void MeshClass::initialise(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices)
+// This isn't called by anything, delete this later if it's never used
+/*void MeshClass::initialise(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices)
 {
 	IndexedModelClass model;
 
@@ -41,7 +43,7 @@ void MeshClass::initialise(Vertex* vertices, unsigned int numVertices, unsigned 
 
 	initialiseModel(model);
 
-}
+}*/
 
 void MeshClass::initialiseModel(const IndexedModelClass& model)
 {

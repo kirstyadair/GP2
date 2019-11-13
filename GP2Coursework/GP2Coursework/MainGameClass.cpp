@@ -4,54 +4,60 @@
 #include "CameraClass.h"
 #include <glm/glm.hpp>
 
-unsigned int indices[] = { 0, 1, 2 };
-Transform transform;
-
 
 MainGameClass::MainGameClass()
 {
-	gameState = GameState::PLAY;
+	gamePlaying = true;
 	DisplayClass* gameDisplay = new DisplayClass(); //new display
 	counter = 0.0f;
-
-	MeshClass Mesh1();
+	
 	camera1.GetViewProjection();
 	camera1.initialiseCamera(glm::vec3(0, 0, -5), 70.0f, gameDisplay->getScreenWidth() / gameDisplay->getScreenHeight(), 0.01f, 1000.0f);
 
 }
 
+MainGameClass::~MainGameClass()
+{
+
+}
+
 void MainGameClass::run()
 {
-	initialiseSystems();
+	gameDisplay.Init();
+	loadModelsFromFile();
 	gameLoop();
 }
 
-void MainGameClass::initialiseSystems()
+void MainGameClass::loadModelsFromFile()
 {
-	gameDisplay.initialiseDisplay();
+	// Loads the models before gameplay loop starts
 	mesh1.loadModel("C:\\Users\\kirst\\Downloads\\monkey3.obj");
 }
 
 void MainGameClass::gameLoop()
 {
-	while (gameState != GameState::EXIT)
+	while (gamePlaying)
 	{
-		processInput();
+		// Check the game hasn't been quit
+		checkGameStatus();
+		// Draw everything to the screen
 		drawGame();
 	}
 }
 
-void MainGameClass::processInput()
+
+void MainGameClass::checkGameStatus()
 {
+	// Store the event
 	SDL_Event event;
 
 	while (SDL_PollEvent(&event))
 	{
-		switch (event.type)
+		// If the event type quits the game
+		if (event.type == SDL_QUIT)
 		{
-		case SDL_QUIT:
-			gameState = GameState::EXIT;
-			break;
+			// End the gameplay loop
+			gamePlaying = false;
 		}
 	}
 
