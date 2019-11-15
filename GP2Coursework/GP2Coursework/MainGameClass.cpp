@@ -38,29 +38,22 @@ void MainGameClass::gameLoop()
 {
 	while (gamePlaying)
 	{
-		// Check the game hasn't been quit
-		checkGameStatus();
+		// Handle input here
+		SDL_Event event;
+
+		while (SDL_PollEvent(&event))
+		{
+			// If the event type quits the game
+			if (event.type == SDL_QUIT)
+			{
+				// End the gameplay loop
+				gamePlaying = false;
+			}
+		}
+						
 		// Draw everything to the screen
 		drawGame();
 	}
-}
-
-
-void MainGameClass::checkGameStatus()
-{
-	// Store the event
-	SDL_Event event;
-
-	while (SDL_PollEvent(&event))
-	{
-		// If the event type quits the game
-		if (event.type == SDL_QUIT)
-		{
-			// End the gameplay loop
-			gamePlaying = false;
-		}
-	}
-
 }
 
 
