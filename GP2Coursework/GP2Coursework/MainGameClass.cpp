@@ -12,8 +12,7 @@ MainGameClass::MainGameClass()
 	counter = 0.0f;
 	
 	camera1.GetViewProjection();
-	camera1.initialiseCamera(glm::vec3(0, 0, -5), 70.0f, gameDisplay->getScreenWidth() / gameDisplay->getScreenHeight(), 0.01f, 1000.0f);
-
+	camera1.initialiseCamera(glm::vec3(0, 0, -100), 70.0f, gameDisplay->getScreenWidth() / gameDisplay->getScreenHeight(), 0.01f, 1000.0f);
 }
 
 MainGameClass::~MainGameClass()
@@ -31,7 +30,7 @@ void MainGameClass::run()
 void MainGameClass::loadModelsFromFile()
 {
 	// Loads the models before gameplay loop starts
-	mesh1.loadModel("C:\\Users\\kirst\\Downloads\\monkey3.obj");
+	mesh1.loadModel("C:\\Users\\kirst\\Downloads\\Fish1.obj");
 }
 
 void MainGameClass::gameLoop()
@@ -59,21 +58,19 @@ void MainGameClass::gameLoop()
 
 void MainGameClass::drawGame()
 {
-	gameDisplay.clearDisplay(0.0f, 1.0f, 1.0f, 1.0f);
+	gameDisplay.clearDisplay(0.0f, 0.0f, 0.0f, 1.0f);
 
 	ShaderClass shader("..\\res\\shader"); //new shader
-	TextureClass texture("..\\res\\bricks.jpg"); //load texture
-	TextureClass texture1("..\\res\\water.jpg"); //load texture
+	TextureClass texture("..\\res\\water.jpg"); //load texture
 
-	transform.SetPos(glm::vec3(sinf(counter), 0.0, 0.0));
-	transform.SetRot(glm::vec3(0.0, 0.0, counter * 5));
-	transform.SetScale(glm::vec3(sinf(counter), sinf(counter), sinf(counter)));
+	transform.SetPos(glm::vec3(0.0, 0.0, 0.0));
+	transform.SetRot(glm::vec3(180, 0.0, counter * 5));
 	
 	shader.Bind();
 	shader.Update(transform, camera1);
 	texture.Bind(0);
 	mesh1.draw();
-	counter = counter + 0.01f;
+	counter += 0.01f;
 
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnd();
