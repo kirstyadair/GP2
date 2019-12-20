@@ -18,7 +18,6 @@ public:
 
 	~ShaderClass();
 
-
 protected:
 private:
 	static const unsigned int NUMBER_OF_SHADERS = 2; // number of shaders

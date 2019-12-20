@@ -7,6 +7,7 @@
 #include "TextureClass.h"
 #include "Transform.h"
 #include "CameraClass.h"
+#include "FishClass.h"
 
 class MainGameClass
 {
@@ -16,19 +17,25 @@ public:
 	void loadModelsFromFile();
 	bool gamePlaying = true;
 	void run();
+	CameraClass camera1;
 
 private:
 
-	void checkGameStatus();
 	void gameLoop();
 	void drawGame();
 
 	DisplayClass gameDisplay;
 	MeshClass mesh1;
 	MeshClass mesh2;
-	CameraClass camera1;
-	Transform transform;
+
+	FishClass fish1;
+	FishClass fish2;
+	FishClass fish3;
 
 	float counter;
+	ShaderClass *fish1shader;
+	ShaderClass *fish2shader;
+	TextureClass *fish1texture;
+	TextureClass *fish2texture;
 
 };
