@@ -13,6 +13,7 @@ public:
 
 private:
 	float count = 0;
+	float zCoord = 0;
 	Transform fishTransform;
 };
 

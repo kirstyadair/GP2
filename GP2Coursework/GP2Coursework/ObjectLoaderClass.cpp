@@ -129,7 +129,7 @@ IndexedModelClass ObjectModel::ToIndexedModel()
 			normalModelIndex = it->second;
 
 		//Create model which properly separates texture coordinates
-		unsigned int previousVertexLocation = FindLastVertexIndex(indexLookup, currentIndex, result);
+		/*unsigned int previousVertexLocation = FindLastVertexIndex(indexLookup, currentIndex, result);
 
 		if (previousVertexLocation == (unsigned int)-1)
 		{
@@ -141,6 +141,13 @@ IndexedModelClass ObjectModel::ToIndexedModel()
 		}
 		else
 			resultModelIndex = previousVertexLocation;
+
+			*/
+		resultModelIndex = result.positions.size();
+		result.positions.push_back(currentPosition);
+		result.textureCoordinates.push_back(currentTexCoord);
+		result.normals.push_back(currentNormal);
+
 
 		normalModel.indices.push_back(normalModelIndex);
 		result.indices.push_back(resultModelIndex);
@@ -387,7 +394,7 @@ static inline std::vector<std::string> SplitString(const std::string &s, char de
 	unsigned int start = 0;
 	unsigned int end = 0;
 
-	while (end <= strLength)
+	while (end < strLength)
 	{
 		while (end <= strLength)
 		{

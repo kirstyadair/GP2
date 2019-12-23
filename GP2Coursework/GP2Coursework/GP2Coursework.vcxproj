@@ -136,6 +136,7 @@
     <ClInclude Include="MainGameClass.h" />
     <ClInclude Include="MeshClass.h" />
     <ClInclude Include="ObjectLoaderClass.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="ShaderClass.h" />
     <ClInclude Include="STBImageClass.h" />
     <ClInclude Include="TextureClass.h" />
@@ -155,6 +156,9 @@
   <ItemGroup>
     <None Include="..\res\shader.frag" />
     <None Include="..\res\shader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GP2Coursework.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

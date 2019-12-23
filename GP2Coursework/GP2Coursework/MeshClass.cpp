@@ -21,8 +21,8 @@ void MeshClass::draw()
 
 void MeshClass::loadModel(const std::string& filename)
 {
-
-	IndexedModelClass model = ObjectModel(filename).ToIndexedModel();
+	ObjectModel obj = ObjectModel(filename);
+	IndexedModelClass model = obj.ToIndexedModel();
 	initialiseModel(model);
 }
 

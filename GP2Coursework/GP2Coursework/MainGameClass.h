@@ -27,6 +27,7 @@ private:
 	DisplayClass gameDisplay;
 	MeshClass mesh1;
 	MeshClass mesh2;
+	MeshClass mesh3;
 
 	FishClass fish1;
 	FishClass fish2;
@@ -35,7 +36,9 @@ private:
 	float counter;
 	ShaderClass *fish1shader;
 	ShaderClass *fish2shader;
+	ShaderClass *fish3shader;
 	TextureClass *fish1texture;
 	TextureClass *fish2texture;
+	TextureClass *fish3texture;
 
 };
