@@ -28,6 +28,8 @@ private:
 	MeshClass mesh1;
 	MeshClass mesh2;
 	MeshClass mesh3;
+	MeshClass backgroundMesh;
+	Transform backgroundTransform;
 
 	FishClass fish1;
 	FishClass fish2;
@@ -37,8 +39,10 @@ private:
 	ShaderClass *fish1shader;
 	ShaderClass *fish2shader;
 	ShaderClass *fish3shader;
+	ShaderClass *backgroundShader;
 	TextureClass *fish1texture;
 	TextureClass *fish2texture;
 	TextureClass *fish3texture;
+	TextureClass *backgroundTexture;
 
 };

@@ -38,12 +38,15 @@ void MainGameClass::loadModelsFromFile()
 	mesh1.loadModel("C:\\Users\\kirst\\Downloads\\Fish1.obj");
 	mesh2.loadModel("C:\\Users\\kirst\\Downloads\\tropicalFish2.obj");
 	mesh3.loadModel("C:\\Users\\kirst\\Downloads\\fish3.obj");
-	fish1shader = new ShaderClass("..\\res\\shader"); //new shader
-	fish2shader = new ShaderClass("..\\res\\shader"); //new shader
-	fish3shader = new ShaderClass("..\\res\\shader"); //new shader
+	backgroundMesh.loadModel("C:\\Users\\kirst\\Downloads\\seafloor.obj");
+	fish1shader = new ShaderClass("..\\res\\shader"); 
+	fish2shader = new ShaderClass("..\\res\\shader"); 
+	fish3shader = new ShaderClass("..\\res\\shader"); 
+	backgroundShader = new ShaderClass("..\\res\\shader"); 
 	fish1texture = new TextureClass("..\\res\\fish flipped.png");
 	fish2texture = new TextureClass("..\\res\\TropicalFish02.jpg");
 	fish3texture = new TextureClass("..\\res\\TropicalFish05.jpg");
+	backgroundTexture = new TextureClass("..\\res\\texture.jpg");
 }
 
 void MainGameClass::gameLoop()
@@ -72,12 +75,22 @@ void MainGameClass::gameLoop()
 void MainGameClass::drawGame()
 {
 	gameDisplay.clearDisplay(0.0f, 0.0f, 0.0f, 1.0f);
+
+	backgroundTransform.SetPos(glm::vec3(0, 0, 0));
+	backgroundTransform.SetRot(glm::vec3(90, 100, 0.0));
+	backgroundShader->Bind();
+	backgroundShader->Update(backgroundTransform, camera1);
+	backgroundTexture->Bind(0);
+	backgroundMesh.draw();
+
 	fish1.MoveFish(fish1shader, fish1texture, camera1);
 	mesh1.draw();
 	fish2.MoveFish(fish2shader, fish2texture, camera1);
 	mesh2.draw();
 	fish3.MoveFish(fish3shader, fish3texture, camera1);
 	mesh3.draw();
+
+	
 
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnd();
