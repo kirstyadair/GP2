@@ -18,6 +18,7 @@ public:
 	bool gamePlaying = true;
 	void run();
 	CameraClass camera1;
+	static int selectedFish;
 
 private:
 
@@ -36,6 +37,9 @@ private:
 	FishClass fish3;
 
 	float counter;
+	char keyboardInput;
+	
+
 	ShaderClass *fish1shader;
 	ShaderClass *fish2shader;
 	ShaderClass *fish3shader;
