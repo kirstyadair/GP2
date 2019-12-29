@@ -10,22 +10,33 @@ public:
 	~FishClass();
 	void MoveFish(ShaderClass* shader, TextureClass* texture, CameraClass camera);
 	void SetStartPos(float x, float y, float z);
+	void SetBoundingBox(float x, float y, float z);
 	bool isSelected = false;
 	bool movingLeft = false;
 	bool movingRight = false;
 	bool movingUp = false;
 	bool movingDown = false;
+	bool hasHitRightWall = false;
+	bool hasHitLeftWall = false;
+	bool hasHitTopWall = false;
+	bool hasHitBottomWall = false;
+
+	float maxX = 0;
+	float maxY = 0;
+	float maxZ = 0;
+	float minX = 0;
+	float minY = 0;
+	float minZ = 0;
 
 private:
-	float count = 0;
+	float xcount = 0;
+	float ycount = 0;
 	float zCoord = 0;
-	float xMax = 0;
-	float xMin = 0;
-	float yMax = 0;
-	float yMin = 0;
-	float zMax = 0;
-	float zMin = 0;
-//	SDL_Rect boundingBox;
+	float xLength = 0;
+	float yLength = 0;
+	float zLength = 0;
+
+	glm::vec3 centre;
 	Transform fishTransform;
 };
 

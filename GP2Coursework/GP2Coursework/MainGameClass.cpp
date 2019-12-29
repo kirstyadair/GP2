@@ -15,9 +15,14 @@ MainGameClass::MainGameClass()
 	camera1.GetViewProjection();
 	camera1.initialiseCamera(glm::vec3(0, 0, -100), 70.0f, gameDisplay->getScreenWidth() / gameDisplay->getScreenHeight(), 0.01f, 1000.0f);
 
-	fish1.SetStartPos(0, 0, 10);
+	// The dimensions were found using blender
+	fish1.SetBoundingBox(28.75, 19, 7);
 	fish2.SetStartPos(0, 0, 0);
-	fish3.SetStartPos(0, 0, -10);
+	// The dimensions were found using blender
+	fish2.SetBoundingBox(49.3, 23.5, 15.5);
+	fish3.SetStartPos(0, 0, 0);
+	// The dimensions were found using blender
+	fish3.SetBoundingBox(16.6, 14, 5);
 
 	MainGameClass::selectedFish = 1;
 	fish1.isSelected = true;
@@ -119,6 +124,37 @@ void MainGameClass::gameLoop()
 						break;
 					}
 				}
+				if (event.key.keysym.sym == SDLK_UP)
+				{
+					switch (selectedFish)
+					{
+					case 1:
+						fish1.movingUp = true;
+						break;
+					case 2:
+						fish2.movingUp = true;
+						break;
+					case 3:
+						fish3.movingUp = true;
+						break;
+					}
+
+				}
+				if (event.key.keysym.sym == SDLK_DOWN)
+				{
+					switch (selectedFish)
+					{
+					case 1:
+						fish1.movingDown = true;
+						break;
+					case 2:
+						fish2.movingDown = true;
+						break;
+					case 3:
+						fish3.movingDown = true;
+						break;
+					}
+				}
 			}
 
 			if (event.type == SDL_KEYUP)
@@ -154,6 +190,37 @@ void MainGameClass::gameLoop()
 						break;
 					}
 				}
+				if (event.key.keysym.sym == SDLK_UP)
+				{
+					switch (selectedFish)
+					{
+					case 1:
+						fish1.movingUp = false;
+						break;
+					case 2:
+						fish2.movingUp = false;
+						break;
+					case 3:
+						fish3.movingUp = false;
+						break;
+					}
+
+				}
+				if (event.key.keysym.sym == SDLK_DOWN)
+				{
+					switch (selectedFish)
+					{
+					case 1:
+						fish1.movingDown = false;
+						break;
+					case 2:
+						fish2.movingDown = false;
+						break;
+					case 3:
+						fish3.movingDown = false;
+						break;
+					}
+				}
 			}
 			
 			// If the event type quits the game
@@ -183,7 +250,7 @@ void MainGameClass::drawGame()
 	backgroundTexture->Bind(0);
 	backgroundMesh.draw();
 
-	MainGameClass::fish1.MoveFish(fish1shader, fish1texture, camera1);
+	fish1.MoveFish(fish1shader, fish1texture, camera1);
 	mesh1.draw();
 	fish2.MoveFish(fish2shader, fish2texture, camera1);
 	mesh2.draw();
