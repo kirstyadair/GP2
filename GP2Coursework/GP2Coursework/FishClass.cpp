@@ -5,7 +5,7 @@
 
 FishClass::FishClass()
 {
-	
+
 }
 
 
@@ -37,91 +37,117 @@ void FishClass::MoveFish(ShaderClass* shader, TextureClass* texture, CameraClass
 	{
 		if (hasHitRightWall)
 		{
-			xcount -= 0.01f;
+			// Move left
+			xcount += 0.01f * speed;
 		}
 		else
 		{
-			xcount += 0.01f;
+			// Move right
+			xcount -= 0.01f * speed;
+			
 		}
 
 		if (hasHitTopWall)
 		{
-			ycount -= 0.005f;
+			ycount -= 0.005f * speed;
 		}
 		else
 		{
-			ycount += 0.005f;
+			ycount += 0.005f * speed;
 		}
-		
-		fishTransform.SetPos(glm::vec3(-xcount, ycount / 2, zCoord));
-		maxX = xcount + (xLength / 2);
-		minX = maxX - xLength;
-		maxY = ycount + (yLength/2);
-		minY = maxY - yLength;
-		maxZ = zCoord + (zLength/2);
-		minZ = maxZ - zLength;
 
-		cout << minY << endl;
+		if (maxX <= -64)
+		{
+			hasHitRightWall = true;
+			hasHitLeftWall = false;
+		}
 
-		
+		if (minX >= 64)
+		{
+			hasHitLeftWall = true;
+			hasHitRightWall = false;
+		}
+
+		if (maxY >= 84)
+		{
+			hasHitTopWall = true;
+			hasHitBottomWall = false;
+		}
+
+		if (minY <= -84)
+		{
+			hasHitBottomWall = true;
+			hasHitTopWall = false;
+		}
 	}
 	else
 	{
 		if (movingRight && !hasHitRightWall)
 		{
-			xcount -= 0.1;
-			maxX = xcount + (xLength / 2);
-			minX = maxX - xLength;
-			fishTransform.SetPos(glm::vec3(xcount, ycount, zCoord));
+			xcount -= 0.05f * speed;
 		}
 
 		if (movingLeft && !hasHitLeftWall)
 		{
-			xcount += 0.1;
-			maxX = xcount + (xLength / 2);
-			minX = maxX - xLength;
-			fishTransform.SetPos(glm::vec3(xcount, ycount, zCoord));
-		}
-
-		if (movingUp && !hasHitTopWall)
-		{
-			ycount += 0.05;
-			maxY = ycount + (yLength / 2);
-			minY = maxY - yLength;
-			fishTransform.SetPos(glm::vec3(xcount, ycount, zCoord));
+			xcount += 0.05f * speed;
 		}
 
 		if (movingDown && !hasHitBottomWall)
 		{
-			ycount -= 0.05;
-			maxY = ycount + (yLength / 2);
-			minY = maxY - yLength;
-			fishTransform.SetPos(glm::vec3(xcount, ycount, zCoord));
+			ycount -= 0.05f * speed;
+		}
+
+		if (movingUp && !hasHitTopWall)
+		{
+			ycount += 0.05f * speed;
+		}
+
+		if (maxX <= -64)
+		{
+			hasHitRightWall = true;
+		}
+		else
+		{
+			hasHitRightWall = false;
+		}
+
+		if (minX >= 64)
+		{
+			hasHitLeftWall = true;
+		}
+		else
+		{
+			hasHitLeftWall = false;
+		}
+
+		if (maxY >= 84)
+		{
+			hasHitTopWall = true;
+		}
+		else
+		{
+			hasHitTopWall = false;
+		}
+
+		if (minY <= -84)
+		{
+			hasHitBottomWall = true;
+		}
+		else
+		{
+			hasHitBottomWall = false;
 		}
 	}
 
-	if (maxX >= 62)
-	{
-		hasHitRightWall = true;
-		hasHitLeftWall = false;
-	}
-	if (minX <= -62)
-	{
-		hasHitLeftWall = true;
-		hasHitRightWall = false;
-	}
-	if (maxY >= 84)
-	{
-		hasHitTopWall = true;
-		hasHitBottomWall = false;
-	}
-	if (minY <= -84)
-	{
-		hasHitTopWall = false;
-		hasHitBottomWall = true;
-	}
+	fishTransform.SetPos(glm::vec3(xcount, ycount / 2, zCoord));
+	maxX = xcount - (xLength / 2);
+	minX = maxX + xLength;
+	maxY = ycount + (yLength / 2);
+	minY = maxY - yLength;
+	maxZ = zCoord + (zLength / 2);
+	minZ = maxZ - zLength;
 
-	fishTransform.SetRot(glm::vec3(0, 0.0, 0.0));
+	fishTransform.SetScale(glm::vec3(scale, scale, scale));
 	shader->Bind();
 	shader->Update(fishTransform, camera);
 	texture->Bind(0);

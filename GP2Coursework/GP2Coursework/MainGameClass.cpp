@@ -15,14 +15,19 @@ MainGameClass::MainGameClass()
 	camera1.GetViewProjection();
 	camera1.initialiseCamera(glm::vec3(0, 0, -100), 70.0f, gameDisplay->getScreenWidth() / gameDisplay->getScreenHeight(), 0.01f, 1000.0f);
 
+	fish1.SetStartPos(0, 0, -2);
 	// The dimensions were found using blender
 	fish1.SetBoundingBox(28.75, 19, 7);
-	fish2.SetStartPos(0, 0, 0);
+	fish2.SetStartPos(30, 50, 0);
 	// The dimensions were found using blender
 	fish2.SetBoundingBox(49.3, 23.5, 15.5);
-	fish3.SetStartPos(0, 0, 0);
+	fish3.SetStartPos(0, 0, 2);
 	// The dimensions were found using blender
 	fish3.SetBoundingBox(16.6, 14, 5);
+
+	fish1.speed = 3;
+	fish2.speed = 1;
+	fish3.speed = 5;
 
 	MainGameClass::selectedFish = 1;
 	fish1.isSelected = true;
@@ -60,8 +65,6 @@ void MainGameClass::loadModelsFromFile()
 
 void MainGameClass::gameLoop()
 {
-	
-	
 	while (gamePlaying)
 	{
 		// Handle input here
@@ -257,10 +260,61 @@ void MainGameClass::drawGame()
 	fish3.MoveFish(fish3shader, fish3texture, camera1);
 	mesh3.draw();
 
-	
+	CheckForCollisions();
 
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnd();
 
 	gameDisplay.bufferSwap();
+}
+
+void MainGameClass::CheckForCollisions()
+{
+	// Check for any collisions on the X axis for all 3 fish
+	bool collisionXF1F2 = (fish2.maxX >= fish1.maxX) && (fish2.maxX <= fish1.minX) || (fish1.maxX >= fish2.maxX) && (fish1.maxX <= fish2.minX);
+	bool collisionXF2F3 = (fish2.maxX >= fish3.maxX) && (fish2.maxX <= fish3.minX) || (fish3.maxX >= fish2.maxX) && (fish3.maxX <= fish2.minX);
+	bool collisionXF1F3 = (fish1.maxX >= fish3.maxX) && (fish1.maxX <= fish3.minX) || (fish3.maxX >= fish1.maxX) && (fish3.maxX <= fish1.minX);
+
+	// Check for any collisions on the Y axis
+	bool collisionYF1F2 = (fish2.maxY <= fish1.maxY) && (fish2.maxY >= fish1.minY) || (fish1.maxY <= fish2.maxY) && (fish1.maxY >= fish2.minY);
+	bool collisionYF2F3 = (fish2.maxY <= fish3.maxY) && (fish2.maxY >= fish3.minY) || (fish3.maxY <= fish2.maxY) && (fish3.maxY >= fish2.minY);
+	bool collisionYF1F3 = (fish1.maxY <= fish3.maxY) && (fish1.maxY >= fish3.minY) || (fish3.maxY <= fish1.maxY) && (fish3.maxY >= fish1.minY);
+
+	// Check for any collisions on the Z axis
+	bool collisionZF1F2 = (fish2.maxZ <= fish1.maxZ) && (fish2.maxZ >= fish1.minZ) || (fish1.maxZ <= fish2.maxZ) && (fish1.maxZ >= fish2.minZ);
+	bool collisionZF2F3 = (fish2.maxZ <= fish3.maxZ) && (fish2.maxZ >= fish3.minZ) || (fish3.maxZ <= fish2.maxZ) && (fish3.maxZ >= fish2.minZ);
+	bool collisionZF1F3 = (fish1.maxZ <= fish3.maxZ) && (fish1.maxZ >= fish3.minZ) || (fish3.maxZ <= fish1.maxZ) && (fish3.maxZ >= fish1.minZ);
+
+	if (collisionXF1F2 && collisionYF1F2 && collisionZF1F2)
+	{
+		fish1.scale -= 0.001;
+		fish2.scale -= 0.001;
+	}
+	else
+	{
+		if (fish1.scale < 1) fish1.scale += 0.001;
+		if (fish2.scale < 1) fish2.scale += 0.001;
+	}
+
+	if (collisionXF2F3 && collisionYF2F3 && collisionZF2F3)
+	{
+		fish2.scale -= 0.001;
+		fish3.scale -= 0.001;
+	}
+	else
+	{
+		if (fish3.scale < 1) fish3.scale += 0.001;
+		if (fish2.scale < 1) fish2.scale += 0.001;
+	}
+
+	if (collisionXF1F3 && collisionYF1F3 && collisionZF1F3)
+	{
+		fish1.scale -= 0.001;
+		fish3.scale -= 0.001;
+	}
+	else
+	{
+		if (fish1.scale < 1) fish1.scale += 0.001;
+		if (fish3.scale < 1) fish3.scale += 0.001;
+	}
 }

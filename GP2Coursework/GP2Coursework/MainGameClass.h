@@ -24,6 +24,7 @@ private:
 
 	void gameLoop();
 	void drawGame();
+	void CheckForCollisions();
 
 	DisplayClass gameDisplay;
 	MeshClass mesh1;

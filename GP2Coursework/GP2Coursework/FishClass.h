@@ -28,6 +28,10 @@ public:
 	float minY = 0;
 	float minZ = 0;
 
+	float speed = 1;
+	float scale = 1;
+	
+
 private:
 	float xcount = 0;
 	float ycount = 0;
