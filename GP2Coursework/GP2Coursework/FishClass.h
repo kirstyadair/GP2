@@ -29,7 +29,7 @@ public:
 	float minZ = 0;
 
 	float speed = 1;
-	float scale = 1;
+	float rot = 1;
 	
 
 private:

@@ -147,7 +147,7 @@ void FishClass::MoveFish(ShaderClass* shader, TextureClass* texture, CameraClass
 	maxZ = zCoord + (zLength / 2);
 	minZ = maxZ - zLength;
 
-	fishTransform.SetScale(glm::vec3(scale, scale, scale));
+	fishTransform.SetRot(glm::vec3(rot, rot, rot));
 	shader->Bind();
 	shader->Update(fishTransform, camera);
 	texture->Bind(0);

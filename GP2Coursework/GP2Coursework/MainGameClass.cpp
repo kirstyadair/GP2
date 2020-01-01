@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 
 int MainGameClass::selectedFish = 0;
+Audio *audioManager = new Audio();
 
 MainGameClass::MainGameClass()
 {
@@ -52,7 +53,7 @@ void MainGameClass::loadModelsFromFile()
 	mesh1.loadModel("C:\\Users\\kirst\\Downloads\\Fish1.obj");
 	mesh2.loadModel("C:\\Users\\kirst\\Downloads\\tropicalFish2.obj");
 	mesh3.loadModel("C:\\Users\\kirst\\Downloads\\fish3.obj");
-	backgroundMesh.loadModel("C:\\Users\\kirst\\Downloads\\fish3.obj");
+	backgroundMesh.loadModel("C:\\Users\\kirst\\Downloads\\seafloor.obj");
 	fish1shader = new ShaderClass("..\\res\\shader"); 
 	fish2shader = new ShaderClass("..\\res\\shader"); 
 	fish3shader = new ShaderClass("..\\res\\shader"); 
@@ -61,12 +62,21 @@ void MainGameClass::loadModelsFromFile()
 	fish2texture = new TextureClass("..\\res\\TropicalFish02.jpg");
 	fish3texture = new TextureClass("..\\res\\TropicalFish05.jpg");
 	backgroundTexture = new TextureClass("..\\res\\texture.jpg");
+
+	// This file is very quiet but does work
+	backgroundFile = audioManager->loadSound("..\\res\\underwater.wav");
+	popFile = audioManager->loadSound("..\\res\\PopSound.wav");
+	thudFile = audioManager->loadSound("..\\res\\thud.wav");
+	audioManager->playSound(backgroundFile);
+	glm::vec3 cameraPos = glm::vec3(0, 0, -100);
+	audioManager->setlistener(cameraPos, cameraPos);
 }
 
 void MainGameClass::gameLoop()
 {
 	while (gamePlaying)
 	{
+		
 		// Handle input here
 		SDL_Event event;
 
@@ -98,6 +108,7 @@ void MainGameClass::gameLoop()
 
 				if (event.key.keysym.sym == SDLK_LEFT)
 				{
+					audioManager->playSound(popFile);
 					switch (selectedFish)
 					{
 					case 1:
@@ -114,6 +125,7 @@ void MainGameClass::gameLoop()
 				}
 				if (event.key.keysym.sym == SDLK_RIGHT)
 				{
+					audioManager->playSound(popFile);
 					switch (selectedFish)
 					{
 					case 1:
@@ -129,6 +141,7 @@ void MainGameClass::gameLoop()
 				}
 				if (event.key.keysym.sym == SDLK_UP)
 				{
+					audioManager->playSound(popFile);
 					switch (selectedFish)
 					{
 					case 1:
@@ -145,6 +158,7 @@ void MainGameClass::gameLoop()
 				}
 				if (event.key.keysym.sym == SDLK_DOWN)
 				{
+					audioManager->playSound(popFile);
 					switch (selectedFish)
 					{
 					case 1:
@@ -287,34 +301,41 @@ void MainGameClass::CheckForCollisions()
 
 	if (collisionXF1F2 && collisionYF1F2 && collisionZF1F2)
 	{
-		fish1.scale -= 0.001;
-		fish2.scale -= 0.001;
-	}
-	else
-	{
-		if (fish1.scale < 1) fish1.scale += 0.001;
-		if (fish2.scale < 1) fish2.scale += 0.001;
+		fish1.rot += 0.01;
+		fish2.rot += 0.01;
+		timer1 += 0.005f;
+
+		if (timer1 >= 1.0f)
+		{
+			timer1 = 0;
+			audioManager->playSound(thudFile);
+		}
+		
 	}
 
 	if (collisionXF2F3 && collisionYF2F3 && collisionZF2F3)
 	{
-		fish2.scale -= 0.001;
-		fish3.scale -= 0.001;
-	}
-	else
-	{
-		if (fish3.scale < 1) fish3.scale += 0.001;
-		if (fish2.scale < 1) fish2.scale += 0.001;
+		fish3.rot += 0.01;
+		fish2.rot += 0.01;
+		timer2 += 0.005f;
+
+		if (timer2 >= 1.0f)
+		{
+			timer2 = 0;
+			audioManager->playSound(thudFile);
+		}
 	}
 
 	if (collisionXF1F3 && collisionYF1F3 && collisionZF1F3)
 	{
-		fish1.scale -= 0.001;
-		fish3.scale -= 0.001;
-	}
-	else
-	{
-		if (fish1.scale < 1) fish1.scale += 0.001;
-		if (fish3.scale < 1) fish3.scale += 0.001;
+		fish1.rot += 0.01;
+		fish3.rot += 0.01;
+		timer3 += 0.005f;
+
+		if (timer3 >= 1.0f)
+		{
+			timer3 = 0;
+			audioManager->playSound(thudFile);
+		}
 	}
 }

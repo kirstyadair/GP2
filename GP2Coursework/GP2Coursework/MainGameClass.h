@@ -8,6 +8,7 @@
 #include "Transform.h"
 #include "CameraClass.h"
 #include "FishClass.h"
+#include "Audio.h"
 
 class MainGameClass
 {
@@ -38,6 +39,9 @@ private:
 	FishClass fish3;
 
 	float counter;
+	float timer1;
+	float timer2;
+	float timer3;
 	char keyboardInput;
 	
 
@@ -49,5 +53,9 @@ private:
 	TextureClass *fish2texture;
 	TextureClass *fish3texture;
 	TextureClass *backgroundTexture;
+
+	unsigned int backgroundFile;
+	unsigned int popFile;
+	unsigned int thudFile;
 
 };
