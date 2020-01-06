@@ -54,19 +54,19 @@ void MainGameClass::loadModelsFromFile()
 	mesh2.loadModel("C:\\Users\\kirst\\Downloads\\tropicalFish2.obj");
 	mesh3.loadModel("C:\\Users\\kirst\\Downloads\\fish3.obj");
 	backgroundMesh.loadModel("C:\\Users\\kirst\\Downloads\\seafloor.obj");
-	fish1shader = new ShaderClass("..\\res\\shader"); 
-	fish2shader = new ShaderClass("..\\res\\shader"); 
-	fish3shader = new ShaderClass("..\\res\\shader"); 
-	backgroundShader = new ShaderClass("..\\res\\shader"); 
-	fish1texture = new TextureClass("..\\res\\fish flipped.png");
-	fish2texture = new TextureClass("..\\res\\TropicalFish02.jpg");
-	fish3texture = new TextureClass("..\\res\\TropicalFish05.jpg");
-	backgroundTexture = new TextureClass("..\\res\\texture.jpg");
+	fish1shader = new ShaderClass("..\\res\\Shader\\shader"); 
+	fish2shader = new ShaderClass("..\\res\\Shader\\shader"); 
+	fish3shader = new ShaderClass("..\\res\\Shader\\shader"); 
+	backgroundShader = new ShaderClass("..\\res\\Shader\\shader"); 
+	fish1texture = new TextureClass("..\\res\\Textures\\Fish1Texture.png");
+	fish2texture = new TextureClass("..\\res\\Textures\\Fish2Texture.jpg");
+	fish3texture = new TextureClass("..\\res\\Textures\\Fish3Texture.jpg");
+	backgroundTexture = new TextureClass("..\\res\\Textures\\SeafloorTexture.jpg");
 
 	// This file is very quiet but does work
-	backgroundFile = audioManager->loadSound("..\\res\\underwater.wav");
-	popFile = audioManager->loadSound("..\\res\\PopSound.wav");
-	thudFile = audioManager->loadSound("..\\res\\thud.wav");
+	backgroundFile = audioManager->loadSound("..\\res\\Sounds\\underwater.wav");
+	popFile = audioManager->loadSound("..\\res\\Sounds\\PopSound.wav");
+	thudFile = audioManager->loadSound("..\\res\\Sounds\\thud.wav");
 	audioManager->playSound(backgroundFile);
 	glm::vec3 cameraPos = glm::vec3(0, 0, -100);
 	audioManager->setlistener(cameraPos, cameraPos);
