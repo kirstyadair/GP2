@@ -9,30 +9,31 @@ Audio *audioManager = new Audio();
 
 MainGameClass::MainGameClass()
 {
+	// Set the gameplay loop variable to true
 	gamePlaying = true;
-	DisplayClass* gameDisplay = new DisplayClass(); //new display
-	counter = 0.0f;
-	
+	// Create a new display
+	DisplayClass* gameDisplay = new DisplayClass();
+
+	// Get the view projection matrix and initialise the camera
 	camera1.GetViewProjection();
 	camera1.initialiseCamera(glm::vec3(0, 0, -100), 70.0f, gameDisplay->getScreenWidth() / gameDisplay->getScreenHeight(), 0.01f, 1000.0f);
 
+	// For each fish, set the starting position and bounding boxes for collisions
 	fish1.SetStartPos(0, 0, -2);
-	// The dimensions were found using blender
 	fish1.SetBoundingBox(28.75, 19, 7);
 	fish2.SetStartPos(30, 50, 0);
-	// The dimensions were found using blender
 	fish2.SetBoundingBox(49.3, 23.5, 15.5);
 	fish3.SetStartPos(0, 0, 2);
-	// The dimensions were found using blender
 	fish3.SetBoundingBox(16.6, 14, 5);
 
+	// Set each fish's speed
 	fish1.speed = 3;
 	fish2.speed = 1;
 	fish3.speed = 5;
 
+	// Set the current selected fish for user input to fish 1
 	MainGameClass::selectedFish = 1;
 	fish1.isSelected = true;
-
 }
 
 MainGameClass::~MainGameClass()
@@ -54,36 +55,41 @@ void MainGameClass::loadModelsFromFile()
 	mesh2.loadModel("..\\res\\Models\\tropicalFish2.obj");
 	mesh3.loadModel("..\\res\\Models\\fish3.obj");
 	backgroundMesh.loadModel("..\\res\\Models\\seafloor.obj");
+	// Create shaders
 	fish1shader = new ShaderClass("..\\res\\Shader\\shader"); 
 	fish2shader = new ShaderClass("..\\res\\Shader\\shader"); 
 	fish3shader = new ShaderClass("..\\res\\Shader\\shader"); 
 	backgroundShader = new ShaderClass("..\\res\\Shader\\shader"); 
+	// Load textures
 	fish1texture = new TextureClass("..\\res\\Textures\\Fish1Texture.png");
 	fish2texture = new TextureClass("..\\res\\Textures\\Fish2Texture.jpg");
 	fish3texture = new TextureClass("..\\res\\Textures\\Fish3Texture.jpg");
 	backgroundTexture = new TextureClass("..\\res\\Textures\\SeafloorTexture.jpg");
-
-	// This file is very quiet but does work
+	// Load sounds
 	backgroundFile = audioManager->loadSound("..\\res\\Sounds\\underwater.wav");
 	popFile = audioManager->loadSound("..\\res\\Sounds\\PopSound.wav");
 	thudFile = audioManager->loadSound("..\\res\\Sounds\\thud.wav");
+	// Start playing the background music
 	audioManager->playSound(backgroundFile);
+	// Set the audio listener position
 	glm::vec3 cameraPos = glm::vec3(0, 0, -100);
 	audioManager->setlistener(cameraPos, cameraPos);
 }
 
 void MainGameClass::gameLoop()
 {
+	// The game will keep playing while this is true
 	while (gamePlaying)
 	{
-		
-		// Handle input here
+		// Create the event for handling input
 		SDL_Event event;
 
 		while (SDL_PollEvent(&event))
 		{
+			// When a key is pressed down
 			if (event.type == SDL_KEYDOWN)
 			{
+				// If the key is 1, set Fish 1 to be the selected fish
 				if (event.key.keysym.sym == SDLK_1)
 				{
 					MainGameClass::selectedFish = 1;
@@ -91,6 +97,7 @@ void MainGameClass::gameLoop()
 					fish2.isSelected = false;
 					fish3.isSelected = false;
 				}
+				// If the key is 2, set Fish 2 to be the selected fish
 				if (event.key.keysym.sym == SDLK_2)
 				{
 					MainGameClass::selectedFish = 2;
@@ -98,6 +105,7 @@ void MainGameClass::gameLoop()
 					fish2.isSelected = true;
 					fish3.isSelected = false;
 				}
+				// If the key is 3, set Fish 3 to be the selected fish
 				if (event.key.keysym.sym == SDLK_3)
 				{
 					MainGameClass::selectedFish = 3;
@@ -106,8 +114,10 @@ void MainGameClass::gameLoop()
 					fish3.isSelected = true;
 				}
 
-				if (event.key.keysym.sym == SDLK_LEFT)
+				// If the left arrow key is pressed, move the selected fish left
+				if (event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == SDLK_a)
 				{
+					// Play the pop sound for the key press
 					audioManager->playSound(popFile);
 					switch (selectedFish)
 					{
@@ -123,7 +133,8 @@ void MainGameClass::gameLoop()
 					}
 					
 				}
-				if (event.key.keysym.sym == SDLK_RIGHT)
+				// If the right arrow key is pressed, move the selected fish right
+				if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_d)
 				{
 					audioManager->playSound(popFile);
 					switch (selectedFish)
@@ -139,7 +150,8 @@ void MainGameClass::gameLoop()
 						break;
 					}
 				}
-				if (event.key.keysym.sym == SDLK_UP)
+				// If the up arrow key is pressed, move the selected fish up
+				if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w)
 				{
 					audioManager->playSound(popFile);
 					switch (selectedFish)
@@ -156,7 +168,8 @@ void MainGameClass::gameLoop()
 					}
 
 				}
-				if (event.key.keysym.sym == SDLK_DOWN)
+				// If the down arrow key is pressed, move the selected fish down
+				if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s)
 				{
 					audioManager->playSound(popFile);
 					switch (selectedFish)
@@ -172,11 +185,18 @@ void MainGameClass::gameLoop()
 						break;
 					}
 				}
+				// If the esc key is pressed, quit the game
+				if (event.key.keysym.sym == SDLK_ESCAPE)
+				{
+					gamePlaying = false;
+				}
 			}
 
+			// When the key press ends
 			if (event.type == SDL_KEYUP)
 			{
-				if (event.key.keysym.sym == SDLK_LEFT)
+				// If left key no longer pressed, stop going left
+				if (event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == SDLK_a)
 				{
 					switch (selectedFish)
 					{
@@ -192,7 +212,8 @@ void MainGameClass::gameLoop()
 					}
 
 				}
-				if (event.key.keysym.sym == SDLK_RIGHT)
+				// If right key no longer pressed, stop going right
+				if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_d)
 				{
 					switch (selectedFish)
 					{
@@ -207,7 +228,8 @@ void MainGameClass::gameLoop()
 						break;
 					}
 				}
-				if (event.key.keysym.sym == SDLK_UP)
+				// If up key no longer pressed, stop going up
+				if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w)
 				{
 					switch (selectedFish)
 					{
@@ -223,7 +245,8 @@ void MainGameClass::gameLoop()
 					}
 
 				}
-				if (event.key.keysym.sym == SDLK_DOWN)
+				// If down key no longer pressed, stop going down
+				if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s)
 				{
 					switch (selectedFish)
 					{
@@ -239,8 +262,8 @@ void MainGameClass::gameLoop()
 					}
 				}
 			}
-			
-			// If the event type quits the game
+
+			// If the game is quit
 			if (event.type == SDL_QUIT)
 			{
 				// End the gameplay loop
@@ -256,17 +279,22 @@ void MainGameClass::gameLoop()
 
 void MainGameClass::drawGame()
 {
+	// Clear the display
 	gameDisplay.clearDisplay(0.0f, 0.0f, 0.0f, 1.0f);
 
+	// Set the background position, rotation and scale
 	backgroundTransform.SetPos(glm::vec3(0, 0, 0));
 	backgroundTransform.SetRot(glm::vec3(7.94, 1.55, 0));
 	backgroundTransform.SetScale(glm::vec3(2, 2, 2));
 
+	// Bind and update the background shader and texture
 	backgroundShader->Bind();
 	backgroundShader->Update(backgroundTransform, camera1);
 	backgroundTexture->Bind(0);
+	// Draw the background mesh
 	backgroundMesh.draw();
 
+	// Move each fish
 	fish1.MoveFish(fish1shader, fish1texture, camera1);
 	mesh1.draw();
 	fish2.MoveFish(fish2shader, fish2texture, camera1);
@@ -274,11 +302,12 @@ void MainGameClass::drawGame()
 	fish3.MoveFish(fish3shader, fish3texture, camera1);
 	mesh3.draw();
 
+	// Check for collisions
 	CheckForCollisions();
-
+	
+	// Swap buffers
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnd();
-
 	gameDisplay.bufferSwap();
 }
 

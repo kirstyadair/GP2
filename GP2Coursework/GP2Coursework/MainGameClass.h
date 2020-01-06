@@ -38,7 +38,6 @@ private:
 	FishClass fish2;
 	FishClass fish3;
 
-	float counter;
 	float timer1;
 	float timer2;
 	float timer3;
