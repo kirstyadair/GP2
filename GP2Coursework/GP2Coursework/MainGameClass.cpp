@@ -50,10 +50,10 @@ void MainGameClass::run()
 void MainGameClass::loadModelsFromFile()
 {
 	// Loads the models before gameplay loop starts
-	mesh1.loadModel("C:\\Users\\kirst\\Downloads\\Fish1.obj");
-	mesh2.loadModel("C:\\Users\\kirst\\Downloads\\tropicalFish2.obj");
-	mesh3.loadModel("C:\\Users\\kirst\\Downloads\\fish3.obj");
-	backgroundMesh.loadModel("C:\\Users\\kirst\\Downloads\\seafloor.obj");
+	mesh1.loadModel("..\\res\\Models\\Fish1.obj");
+	mesh2.loadModel("..\\res\\Models\\tropicalFish2.obj");
+	mesh3.loadModel("..\\res\\Models\\fish3.obj");
+	backgroundMesh.loadModel("..\\res\\Models\\seafloor.obj");
 	fish1shader = new ShaderClass("..\\res\\Shader\\shader"); 
 	fish2shader = new ShaderClass("..\\res\\Shader\\shader"); 
 	fish3shader = new ShaderClass("..\\res\\Shader\\shader"); 
