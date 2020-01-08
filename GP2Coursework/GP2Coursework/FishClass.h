@@ -33,8 +33,8 @@ public:
 	
 
 private:
-	float xcount = 0;
-	float ycount = 0;
+	float xCoord = 0;
+	float yCoord = 0;
 	float zCoord = 0;
 	float xLength = 0;
 	float yLength = 0;

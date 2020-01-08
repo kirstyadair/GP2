@@ -5,37 +5,50 @@
 
 TextureClass::TextureClass(const std::string& fileName)
 {
-	int width, height, numComponents; //width, height, and no of components of image
-	unsigned char* imageData = stbi_load((fileName).c_str(), &width, &height, &numComponents, 4); //load the image and store the data
+	// Declare width, height and number of components of the image
+	int width, height, numComponents;
+	// Load the image and store the data
+	unsigned char* imageData = stbi_load((fileName).c_str(), &width, &height, &numComponents, 4);
 
+	// If there is no image data, return an error
 	if (imageData == NULL)
 	{
 		std::cerr << "texture load failed" << fileName << std::endl;
 	}
 
-	glGenTextures(1, &theTextureHandler); // number of and address of textures
-	glBindTexture(GL_TEXTURE_2D, theTextureHandler); //bind texture - define type 
+	// Generate textures using the number of texture and the address of the texture
+	glGenTextures(1, &theTextureHandler);
+	// Bind the texture and define the type
+	glBindTexture(GL_TEXTURE_2D, theTextureHandler);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // wrap texture outside width
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); // wrap texture outside height
+	// Wrap the texture outside width
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); 
+	// Wrap the texture outside height
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT); 
+	// Filtering for if the texture is smaller than the area
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	// Filtering for if the texture is larger than the area
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); // linear filtering for minification (texture is smaller than area)
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); // linear filtering for magnifcation (texture is larger)
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData); //Target, Mipmapping Level, Pixel Format, Width, Height, Border Size, Input Format, Data Type of Texture, Image Data
-
+	// Pass in the required data 
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+	// Free the loaded image
 	stbi_image_free(imageData);
 }
 
 TextureClass::~TextureClass()
 {
-	glDeleteTextures(1, &theTextureHandler); // number of and address of textures
+	// Delete the textures using the number of and address of the textures
+	glDeleteTextures(1, &theTextureHandler);
 }
 
 void TextureClass::Bind(unsigned int unit)
 {
-	assert(unit >= 0 && unit <= 31); /// check we are working with one of the 32 textures
+	// Ensure working with one of 32 textures
+	assert(unit >= 0 && unit <= 31);
 
-	glActiveTexture(GL_TEXTURE0 + unit); //set acitve texture unit
-	glBindTexture(GL_TEXTURE_2D, theTextureHandler); //type of and texture to bind to unit
+	// Set the active temperature unit
+	glActiveTexture(GL_TEXTURE0 + unit);
+	// Bind the texture using the type of texture and the texture to bind
+	glBindTexture(GL_TEXTURE_2D, theTextureHandler);
 }

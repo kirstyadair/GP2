@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 
 int MainGameClass::selectedFish = 0;
-Audio *audioManager = new Audio();
+AudioClass *audioManager = new AudioClass();
 
 MainGameClass::MainGameClass()
 {

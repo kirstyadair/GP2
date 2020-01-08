@@ -11,7 +11,7 @@
 #include <SDL\SDL.h>
 #include <glm/gtc/type_ptr.hpp>
 
-class Audio
+class AudioClass
 {
 	struct data {
 		int sourceID, bufferID;
@@ -39,8 +39,8 @@ class Audio
 	char* loadWAV(const char* fn, int& chan, int& samplerate, int& bps, int& size);
 
 public:
-	Audio();
-	~Audio();
+	AudioClass();
+	~AudioClass();
 	unsigned int loadSound(const char* filename);
 	void deleteSound(unsigned int id);
 	void playSound(unsigned int id);

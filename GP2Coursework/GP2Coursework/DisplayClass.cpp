@@ -3,72 +3,95 @@
 
 DisplayClass::DisplayClass()
 {
-	sdlWindow = nullptr; //initialise to generate null access violation for debugging. 
+	// Create null access violation for debugging purposes
+	sdlWindow = nullptr;
+	// Set the width and height for the screen
 	widthOfScreen = 1024;
 	heightOfScreen = 768;
 }
 
 DisplayClass::~DisplayClass()
 {
-	SDL_GL_DeleteContext(glContext); // delete context
-	SDL_DestroyWindow(sdlWindow); // detete window (make sure to delete the context and the window in the opposite order of creation in initDisplay())
+	// Delete the context
+	SDL_GL_DeleteContext(glContext);
+	// Delete the window
+	SDL_DestroyWindow(sdlWindow);
+	// Quit the game
 	SDL_Quit();
 }
 
 void DisplayClass::showError(std::string errorString)
 {
+	// Display error message
 	std::cout << errorString << std::endl;
 	std::cout << "Press any key to quit.";
+	// Take user input
 	int in;
 	std::cin >> in;
+	// Quit the game
 	SDL_Quit();
 }
 
 void DisplayClass::bufferSwap()
 {
-	SDL_GL_SwapWindow(sdlWindow); //swap buffers
+	// Swap the buffers
+	SDL_GL_SwapWindow(sdlWindow);
 }
 
 void DisplayClass::clearDisplay(float red, float green, float blue, float alpha)
 {
+	// Clear the display using the values provided
 	glClearColor(red, green, blue, alpha);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear colour and depth buffer - set colour to colour defined in glClearColor
+	// Clear the colour and depth buffer, set the colour to glClearColor
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void DisplayClass::Init()
 {
-	SDL_Init(SDL_INIT_EVERYTHING); //initalise everything
+	// Initialise everything 
+	SDL_Init(SDL_INIT_EVERYTHING);
 
-	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8); //Min no of bits used to diplay colour
+	// Set the minimum number of bits to display colour
+	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1); // set up double buffer   
+	// Initialise the double buffer
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);   
 
-	sdlWindow = SDL_CreateWindow("Game Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, (int)widthOfScreen, (int)heightOfScreen, SDL_WINDOW_OPENGL); // create window
-	glEnable(GL_DEPTH_TEST); //enable z-buffering 
-	glEnable(GL_CULL_FACE); //dont draw faces that are not pointing at the camera
+	// Create the window
+	sdlWindow = SDL_CreateWindow("Game Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, (int)widthOfScreen, (int)heightOfScreen, SDL_WINDOW_OPENGL);
+	// Enable z buffering 
+	glEnable(GL_DEPTH_TEST);
+	// Cull faces that aren't facing the camera
+	glEnable(GL_CULL_FACE);
 
-
+	// If the window does not create correctly
 	if (sdlWindow == nullptr)
 	{
+		// Show an error message
 		showError("Window did not create");
 	}
 
+	// Create the window context
 	glContext = SDL_GL_CreateContext(sdlWindow);
 
+	// If the context fails to create
 	if (glContext == nullptr)
 	{
+		// Show an error message
 		showError("SDL_GL context did not create");
 	}
 
+	// Initialise GLEW
 	GLenum error = glewInit();
+	// If not successful
 	if (error != GLEW_OK)
 	{
+		// Show an error message
 		showError("GLEW did not initialise");
 	}
 
-	glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
-
-	
+	// Set the clear colour
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
