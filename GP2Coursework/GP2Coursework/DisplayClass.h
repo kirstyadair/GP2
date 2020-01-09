@@ -9,13 +9,16 @@ using namespace std;
 class DisplayClass
 {
 public:
+	// Constructor and deconstructor
 	DisplayClass();
 	~DisplayClass();
 	
+	// Public methods
 	void Init();
 	void bufferSwap();
 	void clearDisplay(float red, float green, float blue, float alpha);
 
+	// Getters for screen width and height
 	float getScreenWidth()
 	{
 		return widthOfScreen;
@@ -26,10 +29,12 @@ public:
 	}
 
 private:
-
+	// Private variables
 	void showError(std::string errorString);
-	SDL_GLContext glContext; //global variable to hold the context
-	SDL_Window* sdlWindow; //holds pointer to out window
+	// Global variable holding context
+	SDL_GLContext glContext;
+	// Pointer to window
+	SDL_Window* sdlWindow; 
 	float widthOfScreen;
 	float heightOfScreen;
 };

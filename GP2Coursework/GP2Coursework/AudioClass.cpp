@@ -51,7 +51,7 @@ bool AudioClass::isBigEndian()
 	return !((char*)&a)[0];
 }
 
-// COnverts to integer
+// Converts to integer
 int AudioClass::convertToInt(char* buffer, int length)
 {
 	int a = 0;
@@ -68,39 +68,39 @@ int AudioClass::convertToInt(char* buffer, int length)
 char* AudioClass::loadWAV(const char* fn, int& chan, int& samplerate, int& bps, int& size)
 {
 	// Read required information
-	char buffer[4];
+	char audioBuffer[4];
 	std::ifstream in(fn, std::ios::binary);
-	in.read(buffer, 4);
-	in.read(buffer, 4);
-	in.read(buffer, 4);
-	in.read(buffer, 4);
-	in.read(buffer, 4);
-	in.read(buffer, 2);
-	in.read(buffer, 2);
-	chan = convertToInt(buffer, 2);
-	in.read(buffer, 4);
-	samplerate = convertToInt(buffer, 4);
-	in.read(buffer, 4);
-	in.read(buffer, 2);
-	in.read(buffer, 2);
-	bps = convertToInt(buffer, 2);
-	in.read(buffer, 4);
-	in.read(buffer, 4);
-	size = convertToInt(buffer, 4);
+	in.read(audioBuffer, 4);
+	in.read(audioBuffer, 4);
+	in.read(audioBuffer, 4);
+	in.read(audioBuffer, 4);
+	in.read(audioBuffer, 4);
+	in.read(audioBuffer, 2);
+	in.read(audioBuffer, 2);
+	chan = convertToInt(audioBuffer, 2);
+	in.read(audioBuffer, 4);
+	samplerate = convertToInt(audioBuffer, 4);
+	in.read(audioBuffer, 4);
+	in.read(audioBuffer, 2);
+	in.read(audioBuffer, 2);
+	bps = convertToInt(audioBuffer, 2);
+	in.read(audioBuffer, 4);
+	in.read(audioBuffer, 4);
+	size = convertToInt(audioBuffer, 4);
 
 	// Create a new array of characters for sound data
-	char* soundData = new char[size];
+	char* audioSoundData = new char[size];
 	// Read the sound data
-	in.read(soundData, size);
+	in.read(audioSoundData, size);
 	// Return the sound data
-	return soundData;
+	return audioSoundData;
 }
 
 unsigned int AudioClass::loadSound(const char* filename)
 {
 	// Set up variables
-	bool found = false;
-	unsigned int sourceID, bufferID;
+	bool soundFound = false;
+	unsigned int soundSourceID, soundBufferID;
 	char* soundData = NULL;
 
 	// Iterate through datas
@@ -109,22 +109,22 @@ unsigned int AudioClass::loadSound(const char* filename)
 		if (datas[i].name == filename && datas[i].bufferID != -1)
 		{
 			// Assign buffer IDs
-			bufferID = datas[i].bufferID;
-			found = true;
+			soundBufferID = datas[i].bufferID;
+			soundFound = true;
 			break;
 		}
 	}
 
 	// If found is false
-	if(!found)
+	if(!soundFound)
 	{	
 		// Create variables to store data
 		int channel, sampleRate, bps, size;
 		// Load the sound data
 		soundData = loadWAV(filename, channel, sampleRate, bps, size);
-		unsigned int format;
+		unsigned int audioFormat;
 		// Generate buffers
-		alGenBuffers(1, &bufferID);
+		alGenBuffers(1, &soundBufferID);
 
 		// Check the audio channel
 		if (channel == 1)
@@ -132,35 +132,35 @@ unsigned int AudioClass::loadSound(const char* filename)
 			// Check BPS
 			if (bps == 8)
 			{
-				format = AL_FORMAT_MONO8;
+				audioFormat = AL_FORMAT_MONO8;
 			}
 			else
 			{
-				format = AL_FORMAT_MONO16;
+				audioFormat = AL_FORMAT_MONO16;
 			}
 		}
 		else
 		{
 			if (bps == 8)
 			{
-				format = AL_FORMAT_STEREO8;
+				audioFormat = AL_FORMAT_STEREO8;
 			}
 			else
 			{
-				format = AL_FORMAT_STEREO16;
+				audioFormat = AL_FORMAT_STEREO16;
 			}
 
 		}
 		// Buffer data
-		alBufferData(bufferID, format, soundData, size, sampleRate);
+		alBufferData(soundBufferID, audioFormat, soundData, size, sampleRate);
 	}
 
 	// Create source ID and return it
-	alGenSources(1, &sourceID);
-	alSourcei(sourceID, AL_BUFFER, bufferID);
-	alSourcef(sourceID, AL_REFERENCE_DISTANCE, 1.0f);
-	datas.push_back(data(sourceID, (!found ? bufferID : -1), soundData, filename));
-	return sourceID;
+	alGenSources(1, &soundSourceID);
+	alSourcei(soundSourceID, AL_BUFFER, soundBufferID);
+	alSourcef(soundSourceID, AL_REFERENCE_DISTANCE, 1.0f);
+	datas.push_back(data(soundSourceID, (!soundFound ? soundBufferID : -1), soundData, filename));
+	return soundSourceID;
 }
 
 // Play sound
